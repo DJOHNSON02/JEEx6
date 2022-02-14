@@ -3,6 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/jspf/declarativemethods.jspf" %>
 <%@page import="edu.nbcc.student.Student"%>
+<%@page import="java.util.Vector"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,9 +32,9 @@
             		session.removeAttribute("teams");
             	}
             	
-            	List<List<Student>> studentTeams = new ArrayList();
+            	Vector<Vector<Student>> studentTeams = new Vector();
             	if (session.getAttribute("teams") != null) {
-					studentTeams = (List<List<Student>>)session.getAttribute("teams");					
+					studentTeams = (Vector<Vector<Student>>)session.getAttribute("teams");					
 				}
             %>
             <% 
@@ -54,7 +55,7 @@
                     </th>
                 </tr>
 			<% 
-				for (List<Student> t: studentTeams) { 
+				for (Vector<Student> t: studentTeams) { 
 					for (Student s: t) {
 			%>
                <tr>

@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@page import="edu.nbcc.student.Student"%>
+<%@page import="java.util.Vector"%>
 <%@taglib uri="/WEB-INF/tlds/studentDropdown.tld" prefix="s"%>
 <%@include file="/WEB-INF/jspf/declarativemethods.jspf"%>
 <!DOCTYPE html>
@@ -40,8 +41,8 @@
 			Student stu1 = null;
 			Student stu2 = null;
 			boolean submitted = false;
-			errors = new ArrayList();
-			List<Student> team = new ArrayList<Student>();
+			Vector<String> errors = new Vector<String>();
+			Vector<Student> team = new Vector<Student>();
 			
 			if (request.getParameter("btnSubmit") != null) {
 				student1 = Integer.parseInt(request.getParamter("dd1"));
@@ -49,36 +50,36 @@
 				
 				stu1 = Student.getStudent(student1);
 				stu2 = Student.getStudent(student2);
-				List<List<Student>> studentTeams = new ArrayList();
+				Vector<Vector<Student>> studentTeams = new Vector();
 				
 				if (Student.isStudentOnTeam(team, stu1)) {
-					errors.add("Error adding Student 1");
+					errors.addElement("Error adding Student 1");
 				} else {
-					team.add(stu1);
+					team.addElement(stu1);
 				}
 				
 				if (Student.isStudentOnTeam(team, stu2)) {
-					errors.add("Error adding Student 2");
+					errors.addElement("Error adding Student 2");
 				} else {
-					team.add(stu2);
+					team.addElement(stu2);
 				}
 				
 				if (session.getAttribute("teams") != null) {
-					studentTeams = (List<List<Student>>)session.getAttribute("teams");					
+					studentTeams = (Vector<Vector<Student>>)session.getAttribute("teams");					
 				}
 				
-				for (List<Student> t : studentTeams) {
+				for (Vector<Student> t : studentTeams) {
 					if (Student.isStudentOnTeam(t, stu1)) {
-						errors.add("Error adding Student 1");
+						errors.addElement("Error adding Student 1");
 					}
 					
 					if (Student.isStudentOnTeam(t, stu2)) {
-						errors.add("Error adding Student 2");
+						errors.addElement("Error adding Student 2");
 					}
 				}								
 				
 				if (!errors.isEmpty()) {
-					studentTeams.add(team);
+					studentTeams.addElement(team);
 					//Set a attribute of the session
 					session.setAttribute("teams", studentTeams);
 				}	
